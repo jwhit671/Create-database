@@ -1,0 +1,68 @@
+1.)
+SELECT Title, No_Of_Copies, BranchName
+FROM Book as bk INNER JOIN Book_Copies as bkco
+ON bk.Bookid = bkco.Bookid INNER JOIN Library_Branch as libBr
+ON bkco.Branchid = libBr.Branchid
+WHERE libBr.BranchName = 'Sharpstown'
+And   
+Title = 'The Lost Tribe'
+
+2.)|
+SELECT Title, No_Of_Copies, BranchName
+FROM
+Book as bk INNER JOIN Book_Copies as bkco
+ON bk.Bookid = bkco.Bookid
+INNER JOIN Library_Branch as libBr
+ON bkco.Branchid = libBr.Branchid
+WHERE Title = 'The Lost Tribe'
+
+3.)
+SELECT bkl.CardNo,bor.CardNo,Name
+FROM Book_Loans as bkl right outer join Borrower as bor
+On bor.CardNo = bkl.CardNo 
+WHERE bkl.CardNo is NULL
+
+4.)
+SELECT Title, Name, bor.Address
+FROM Book_Loans as Bkl INNER JOIN Library_Branch as libr
+ON bkl.Branchid = libr.BranchidINNER JOIN Borrower as bor
+ON bkl.CardNo = bor.CardNoINNER JOIN Book as bk
+ON bkl.Bookid = bk.Bookid
+WHERE libr.BranchName = 'Sharpstown'
+AND DateIn = '07/16/16'
+
+5.)
+
+SELECT  SUM( No_Of_Copies) AS sumcopies,  BranchName
+FROM  library_branch as libr INNER JOIN Book_Loans as bkl
+ON bkl.Branchid = libr.BranchidINNER JOIN Book_Copies as bkco
+ON bkco.Branchid = libr.Branchid
+GROUP BY BranchName
+
+6.)
+SELECT COUNT(bkl.CardNo) AS NumberOfLoans, Name, Address
+ FROM  Book_Loans as bkl INNER JOIN Borrower as bor
+ON bkl.CardNo = bor.CardNo
+Group by Address, Name
+Having COUNT (bkl.CardNo) >5
+
+7.)
+SELECT Title, No_Of_Copies
+FROMLibrary_Branch as lbr inner JOIN Book_Copies as bkco
+ON lbr.Branchid = bkco.Branchidinner JOIN Book as bk
+ON bkco.Bookid = bk.Bookidinner JOIN Book_Authors as bka
+ON bk.Bookid = bka.BookId
+WHERE AuthorName= 'Steven King'And BranchName = 'Central'
+8.)
+CREATE PROCEDURE GetLostTribe
+As
+
+SELECT Title, No_Of_Copies, BranchName
+FROM Book as bk INNER JOIN Book_Copies as bkco
+ON bk.Bookid = bkco.BookidINNER JOIN Library_Branch as libBr
+ON bkco.Branchid = libBr.Branchid
+WHERE libBr.BranchName = 'Sharpstown'And  Title = 'The Lost Tribe'
+
+(next query)
+
+EXEC GetLostTribe
